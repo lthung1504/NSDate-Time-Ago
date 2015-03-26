@@ -91,7 +91,54 @@
     
 }
 
+/*
+    Formatted As Time Ago With custom a little bit about show year
+    Returns the date formatted as Time Ago (in the style of the mobile time ago date formatting for Facebook)
+ */
+- (NSString *)formattedAsTimeAgoCustomCheckYear
+{    
+    //Now
+    NSDate *now = [NSDate date];
+    NSTimeInterval secondsSince = -(int)[self timeIntervalSinceDate:now];
+    
+    //Should never hit this but handle the future case
+    if(secondsSince < 0)
+        return @"In The Future";
+        
+    
+    // < 1 minute = "Just now"
+    if(secondsSince < MINUTE)
+        return @"Just now";
+    
+    
+    // < 1 hour = "x minutes ago"
+    if(secondsSince < HOUR)
+        return [self formatMinutesAgo:secondsSince];
+  
+    
+    // Today = "x hours ago"
+    if([self isSameDayAs:now])
+        return [self formatAsToday:secondsSince];
+ 
+    
+    // Yesterday = "Yesterday at 1:28 PM"
+    if([self isYesterday:now])
+        return [self formatAsYesterday];
+  
+    
+    // < Last 7 days = "Friday at 1:48 AM"
+    if([self isLastWeek:secondsSince])
+        return [self formatAsLastWeek];
 
+    
+    // < Last 30 days = "March 30 at 1:14 PM"
+    if([self isLastMonth:secondsSince])
+        return [self formatAsLastMonth];
+    
+    // Anything else = "September 9, 2011"
+    return [self formatAsOther];
+    
+}
 
 /*
  ========================== Date Comparison Methods ==========================
