@@ -74,4 +74,10 @@
  */
 - (NSString *)formattedAsTimeAgo;
 
+/*
+    Formatted As Time Ago With custom a little bit about show year
+    Returns the date formatted as Time Ago (in the style of the mobile time ago date formatting for Facebook)
+ */
+- (NSString *)formattedAsTimeAgoCustomCheckYear;
+
 @end
